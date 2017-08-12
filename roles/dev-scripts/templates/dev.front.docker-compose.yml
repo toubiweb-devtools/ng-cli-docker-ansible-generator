@@ -1,0 +1,17 @@
+version: '3'
+services:
+  dev:
+    container_name: {{ app_container_name }}
+    image: {{ app_image_name }}
+    command: tail -f /dev/null
+    hostname: {{ app_hostname }}
+    volumes:
+      - $DEV_WORKING_DIR:/app
+      - $HOME/.ssh:/home/node/.ssh
+      - $HOME/.gitconfig:/home/node/.gitconfig
+      - $HOME/.npmrc:/home/node/.npmrc
+    ports:
+      - {{ app.frontend.angular.port }}:{{ app.frontend.angular.port }}
+    environment:
+      TZ: Europe/Paris
+    network_mode: host

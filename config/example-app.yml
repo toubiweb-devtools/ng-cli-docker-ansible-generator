@@ -1,0 +1,17 @@
+local_user: # default to $USER
+namespace: my-company
+name: my-website
+basedir: /tmp/generated-app/my-website
+frontend:
+  directory: frontend
+  docker:
+    node_version: 8.3
+    npm_version: 5.3
+    ngcli_version: 1.3
+  angular:
+    prefix: app
+    routing: true
+    style: scss
+    host: localhost
+    port: 5000
+    dependencies: "@angular/material @angular/cdk @angular/animations"

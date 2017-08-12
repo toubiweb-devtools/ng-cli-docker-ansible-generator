@@ -1,0 +1,24 @@
+---
+
+- name: load app.yml configuration
+  include_vars:
+    file: "{{ CONFIG_FILEPATH }}"
+    name: app
+
+- set_fact:
+    dev_scripts_dir: "{{ app.basedir }}/scripts/dev"
+    app_frontend_dir: "{{ app.basedir }}/{{ app.frontend.directory }}"
+    app_container_name: "{{ app.name }}-frontend"
+    app_image_name: "{{ app.namespace }}/{{ app.name }}"
+    app_hostname: "{{ app.namespace }}-{{ app.name }}"
+    local_user: "{{ app.local_user }}"
+
+- debug:
+    msg: "{{ local_user }}"
+
+- set_fact:
+    local_user: "{{ ansible_env.USER }}"
+  when: (local_user is undefined) or (local_user is none) or (local_user|trim == '')
+
+- debug:
+    msg: "{{ local_user }}"

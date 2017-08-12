@@ -1,0 +1,32 @@
+---
+
+- name: Creates directory
+  file:
+    path: "{{ dev_scripts_dir }}"
+    state: directory
+    owner: "{{ local_user }}"
+    mode: 0775
+
+- template:
+    src: "{{ item.src }}"
+    dest: "{{ item.destdir }}/{{ item.src }}"
+    owner: "{{ local_user }}"
+    mode: "{{ item.mode }}"
+  with_items:
+    - { src: 'dev.build.sh', destdir: "{{ dev_scripts_dir }}", mode: '0744' }
+    - { src: 'dev.dockerfile', destdir: "{{ dev_scripts_dir }}", mode: '0644' }
+    - { src: 'dev.front.docker-compose.yml', destdir: "{{ dev_scripts_dir }}", mode: '0644' }
+    - { src: 'dev.front.enter.sh', destdir: "{{ dev_scripts_dir }}", mode: '0744' }
+    - { src: 'dev.front.start.sh', destdir: "{{ dev_scripts_dir }}", mode: '0744' }
+    - { src: 'dev.front.stop.sh', destdir: "{{ dev_scripts_dir }}", mode: '0744' }
+    - { src: 'dev.run.sh', destdir: "{{ dev_scripts_dir }}", mode: '0744' }
+    - { src: 'help.sh', destdir: "{{ app.basedir }}", mode: '0744' }
+
+
+- name: Build docker container
+  shell: "{{ dev_scripts_dir }}/dev.build.sh"
+  register: build
+
+- name: Stop running container
+  shell: "{{ dev_scripts_dir }}/dev.front.stop.sh"
+  when: build.changed

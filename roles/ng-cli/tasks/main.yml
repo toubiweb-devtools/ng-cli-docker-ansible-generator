@@ -1,0 +1,20 @@
+---
+
+- stat:
+    path: "{{ app_frontend_dir }}"
+  register: p
+
+# @see https://github.com/angular/angular-cli/wiki/new
+- name: Run ng-cli
+  shell: "{{ dev_scripts_dir }}/dev.run.sh ng new {{ app.name }} --directory={{ app.frontend.directory }} --prefix {{ app.frontend.angular.prefix }} --style  {{ app.frontend.angular.style }} --routing {{ app.frontend.angular.routing|lower }}"
+  when: p.stat.isdir is not defined
+
+# @see https://github.com/angular/angular-cli/wiki/serve
+- replace:
+    path: "{{ app_frontend_dir }}/package.json"
+    regexp: '"start": "ng serve.*"'
+    replace: '"start": "ng serve --host {{ app.frontend.angular.host }} --disable-host-check --port {{ app.frontend.angular.port }}"'
+    backup: yes
+
+- name: Install extra dependencies
+  shell: "{{ dev_scripts_dir }}/dev.run.sh \"cd {{ app.frontend.directory }} && npm install {{ app.frontend.angular.dependencies }}\""

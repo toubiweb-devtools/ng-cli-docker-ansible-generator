@@ -1,0 +1,6 @@
+---
+- hosts: all
+  roles:
+      - { role: _setenv, tags: ['always']  }
+      - { role: dev-scripts, tags: ['always']  }
+      - { role: ng-cli, tags: ['always']  }

@@ -1,0 +1,3 @@
+*.retry
+config/*
+!config/example-app.yml
