@@ -9,9 +9,13 @@ frontend:
     npm_version: 5.3
     ngcli_version: 1.3
   angular:
-    prefix: app
-    routing: true
-    style: scss
     host: localhost
-    port: 5000
+    port: 4200
+    prefix: app
+    style: scss
+    routing: true
+    skipTests: false
     dependencies: "@angular/material @angular/cdk @angular/animations"
+    modules:
+      - layout
+      - util

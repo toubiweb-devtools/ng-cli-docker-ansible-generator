@@ -17,6 +17,7 @@ This ansible playbook does the following actions:
 - ansible
 - docker
 - docker-compose
+- docker-py (pip install)
 
 ## Usage
 
@@ -25,11 +26,11 @@ Make a copy of config/example-app.yml and configure it according to your require
 Then run:
 
 ```bash
-sudo ./ng-cli.sh
+./ng-cli.sh
 ```
 
 or
 
 ```bash
- sudo ./ng-cli.sh --config=example-app.yml
+ ./ng-cli.sh --config=example-app.yml
  ```

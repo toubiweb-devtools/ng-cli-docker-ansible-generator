@@ -6,7 +6,7 @@
 
 # @see https://github.com/angular/angular-cli/wiki/new
 - name: Run ng-cli
-  shell: "{{ dev_scripts_dir }}/dev.run.sh ng new {{ app.name }} --directory={{ app.frontend.directory }} --prefix {{ app.frontend.angular.prefix }} --style  {{ app.frontend.angular.style }} --routing {{ app.frontend.angular.routing|lower }}"
+  shell: "{{ dev_scripts_dir }}/dev.run.sh ng new {{ app.name }} --directory={{ app.frontend.directory }} --prefix {{ app.frontend.angular.prefix }} --style  {{ app.frontend.angular.style }} --routing {{ app.frontend.angular.routing|lower }} --skip-tests {{ app.frontend.angular.skipTests|lower }}"
   when: p.stat.isdir is not defined
 
 # @see https://github.com/angular/angular-cli/wiki/serve
@@ -17,4 +17,9 @@
     backup: yes
 
 - name: Install extra dependencies
-  shell: "{{ dev_scripts_dir }}/dev.run.sh \"cd {{ app.frontend.directory }} && npm install {{ app.frontend.angular.dependencies }}\""
+  shell: "{{ dev_scripts_dir }}/dev.run.sh \"cd {{ app.frontend.directory }} && npm install {{ app.frontend.angular.dependencies|join(' ') }}\""
+
+# @see https://github.com/angular/angular-cli/wiki/generate-module
+- name: Create extra modules
+  shell: "{{ dev_scripts_dir }}/dev.run.sh \"cd {{ app.frontend.directory }} && ng g module {{ item }}\""
+  with_items: "{{ app.frontend.angular.modules }}"

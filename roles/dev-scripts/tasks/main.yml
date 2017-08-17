@@ -1,5 +1,11 @@
 ---
 
+- name: Stop obsolete container
+  docker:
+    name: "{{ app_container_name }}"
+    image: "{{ app_image_name }}"
+    state: stopped
+
 - name: Creates directory
   file:
     path: "{{ dev_scripts_dir }}"
@@ -26,7 +32,3 @@
 - name: Build docker container
   shell: "{{ dev_scripts_dir }}/dev.build.sh"
   register: build
-
-- name: Stop running container
-  shell: "{{ dev_scripts_dir }}/dev.front.stop.sh"
-  when: build.changed
